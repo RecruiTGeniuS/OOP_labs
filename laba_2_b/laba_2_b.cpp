@@ -1,17 +1,17 @@
 /*
 * -------------------------------------------------------------------------------------------------------------------------------------------- *
-    В проекте «Классическое приложение Windows» в функции WndProc вставить обработчик события
-    case WM_CREATE: { break;}
-    В нем создать две фигуры типа окружности и прямоугольника и положить их в общее глобальное хранилище, применяя контейнер vector. 
-    (Использовать следует конструктор с необходимыми параметрами для каждого типа)
-
-    Далее в функции WndProc, в обработке события WM_PAINT, между строками
-
-    hdc = BeginPaint(hWnd, &ps);
-    и
-    EndPaint(hWnd, &ps);
-
-    последовательно проходя по хранимым в контейнере vector данными, осуществить рисование окружности и прямоугольника.
+    	Р’ РїСЂРѕРµРєС‚Рµ В«РљР»Р°СЃСЃРёС‡РµСЃРєРѕРµ РїСЂРёР»РѕР¶РµРЅРёРµ WindowsВ» РІ С„СѓРЅРєС†РёРё WndProc РІСЃС‚Р°РІРёС‚СЊ РѕР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёСЏ
+	case WM_CREATE: {    break;}
+	Р’ РЅРµРј СЃРѕР·РґР°С‚СЊ РґРІРµ С„РёРіСѓСЂС‹ С‚РёРїР° РѕРєСЂСѓР¶РЅРѕСЃС‚Рё Рё РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР° Рё РїРѕР»РѕР¶РёС‚СЊ РёС… РІ РѕР±С‰РµРµ РіР»РѕР±Р°Р»СЊРЅРѕРµ С…СЂР°РЅРёР»РёС‰Рµ, РїСЂРёРјРµРЅСЏСЏ РєРѕРЅС‚РµР№РЅРµСЂ vector. 
+	(РСЃРїРѕР»СЊР·РѕРІР°С‚СЊ СЃР»РµРґСѓРµС‚ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ РЅРµРѕР±С…РѕРґРёРјС‹РјРё РїР°СЂР°РјРµС‚СЂР°РјРё РґР»СЏ РєР°Р¶РґРѕРіРѕ С‚РёРїР°)
+	
+	Р”Р°Р»РµРµ РІ С„СѓРЅРєС†РёРё WndProc, РІ РѕР±СЂР°Р±РѕС‚РєРµ СЃРѕР±С‹С‚РёСЏ WM_PAINT, РјРµР¶РґСѓ СЃС‚СЂРѕРєР°РјРё
+	
+	hdc = BeginPaint(hWnd, &ps);
+	Рё
+	EndPaint(hWnd, &ps);
+	
+	РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕ РїСЂРѕС…РѕРґСЏ РїРѕ С…СЂР°РЅРёРјС‹Рј РІ РєРѕРЅС‚РµР№РЅРµСЂРµ vector РґР°РЅРЅС‹РјРё, РѕСЃСѓС‰РµСЃС‚РІРёС‚СЊ СЂРёСЃРѕРІР°РЅРёРµ РѕРєСЂСѓР¶РЅРѕСЃС‚Рё Рё РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°.
 * -------------------------------------------------------------------------------------------------------------------------------------------- *
 */
 
@@ -22,7 +22,7 @@
 #include <cmath>
 
 
-// Процедура window
+// РџСЂРѕС†РµРґСѓСЂР° window
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 TCHAR WinName[] = _T("MainFrame");
 
@@ -49,7 +49,7 @@ int APIENTRY WinMain(HINSTANCE This, HINSTANCE Prev, LPSTR cmd, int mode)
         return 0;
     }
 
-    hwnd = CreateWindow(WinName, _T("Каркас Windows-приложения"), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, This, NULL);
+    hwnd = CreateWindow(WinName, _T("ГЉГ Г°ГЄГ Г± Windows-ГЇГ°ГЁГ«Г®Г¦ГҐГ­ГЁГї"), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, This, NULL);
 
     ShowWindow(hwnd, mode);
 
@@ -62,7 +62,7 @@ int APIENTRY WinMain(HINSTANCE This, HINSTANCE Prev, LPSTR cmd, int mode)
     return 0;
 }
 
-// Иерархия классов
+// РРµСЂР°СЂС…РёСЏ РєР»Р°СЃСЃРѕРІ
 class Shape
 {
 public:
@@ -74,7 +74,7 @@ public:
 class Circle : public Shape
 {
 public:
-    // Конструктор из условия
+    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РёР· СѓСЃР»РѕРІРёСЏ
     Circle(int center, int radius) : startCoord_ { center - radius }, endCoord_ { center + radius }
     {}
     void Draw(HDC hdc)
@@ -90,7 +90,7 @@ private:
 class Rect : public Shape
 {
 public:
-    // Конструктор из условия
+    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РёР· СѓСЃР»РѕРІРёСЏ
     Rect(int start, int width, int height) :
     startCoord_ {start}, rightCoord_ {startCoord_ + width}, bottomCoord_ {height}
     {}
@@ -105,7 +105,7 @@ private:
     const int bottomCoord_{}; const int width_{}; const int height_{};
 };
 
-// Глобальное хранилище
+// Р“Р»РѕР±Р°Р»СЊРЅРѕРµ С…СЂР°РЅРёР»РёС‰Рµ
 std::vector<Shape*> figuresStorage;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -126,7 +126,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
 
     case WM_PAINT:
-        // Рисоваине окружности  и прямоугольника
+        // Р РёСЃРѕРІР°РёРЅРµ РѕРєСЂСѓР¶РЅРѕСЃС‚Рё  Рё РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°
         hdc = BeginPaint(hWnd, &ps);
         for (std::vector <Shape*>::iterator iter = figuresStorage.begin(); iter != figuresStorage.end(); ++iter)
         {
