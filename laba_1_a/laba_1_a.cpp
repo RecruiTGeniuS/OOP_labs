@@ -6,9 +6,10 @@
         Примечание 2: в библиотеке не должно быть книг без автора и названия
     Б) В отдельной процедуре вывести на консоль, использую switch, кол-во художественной литературы и технической
     В) В дополнительной процедуре сделать тоже самое, на без switch
-    Следить за утечками
+    Следить за утечками.
 * ---------------------------------------------------------------------------------------------------------------------------- *
 */
+
 
 #include <iostream>
 #include <vector>
@@ -31,7 +32,7 @@ public:
 
     // Конструктор для инициализации
     Book(const std::string& author, const std::string& bookName, const Type& bookType) :
-        author_{author}, bookName_{bookName}, bookType_{bookType}
+        author_{ author }, bookName_{ bookName }, bookType_{ bookType }
     {
         if (author.empty() || bookName.empty())
         {
@@ -130,7 +131,7 @@ int main()
     libCheck.push_back(b3);
     libCheck.push_back(b4);
     libCheck.push_back(b5);
-    libCheck.push_back(b6); 
+    libCheck.push_back(b6);
     libCheck.push_back(b7);
 
 
@@ -143,14 +144,14 @@ int main()
         }
     }
 
-  
+
     // Подсчёт тех./худ. лит-ры
     std::cout << "----------------------\n";
     countSwitch(library);
     std::cout << "----------------------\n";
     countIf(library);
     std::cout << "----------------------\n";
- 
+
 
     return 0;
 }
