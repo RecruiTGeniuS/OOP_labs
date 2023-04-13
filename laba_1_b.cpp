@@ -30,26 +30,29 @@ struct Leaks
     }
 }_leaks;
 
+
 // Иерархия наследования
 class Car
 {
 protected:
-    std::string model_;
+    const std::string model_;
 
 public:
-    Car() {}
+    Car(const std::string& model) : model_{ model }
+    {}
     virtual ~Car() {}
+
+    virtual void print() const = 0; // Чисто виртуальный метод print()
 };
 
 class Mercedes : public Car
 {
 public:
-    Mercedes(const std::string& model)
-    {
-        model_ = model;
-    }
-    ~Mercedes()
-    {
+    Mercedes(const std::string& model) : Car{ model }
+    {}
+
+    void print() const override 
+    { 
         std::cout << "Mercedes " << model_ << std::endl;
     }
 };
@@ -57,11 +60,10 @@ public:
 class Toyota : public Car
 {
 public:
-    Toyota(const std::string& model)
-    {
-        model_ = model;
-    }
-    ~Toyota()
+    Toyota(const std::string& model) : Car{ model }
+    {}
+
+    void print() const override
     {
         std::cout << "Toyota " << model_ << std::endl;
     }
@@ -70,69 +72,60 @@ public:
 class BMW : public Car
 {
 public:
-    BMW(const std::string& model)
-    {
-        model_ = model;
-    }
-    ~BMW()
+    BMW(const std::string& model) : Car{ model }
+    {}
+
+    void print() const override
     {
         std::cout << "BMW " << model_ << std::endl;
+        
     }
 };
 
-class Lada : public Car
-{
-public:
-    Lada(const std::string& model)
-    {
-        model_ = model;
-    }
-    ~Lada()
-    {
-        std::cout << "Lada " << model_ << std::endl;
-    }
-};
 
 
 int main()
 {
+    // Окрытие файла
+    std::ifstream file;
+    file.open("cars.txt");
+
+
     std::string carBrand;
     std::string carModel;
 
-    std::vector<Car*> storage;
 
-    std::ifstream file("cars.txt");
+    // Хранилище машин
+    std::vector<Car*> storage;
 
     while (!file.eof())
     {
         file >> carBrand;
+
         if (carBrand == "Mercedes")
         {
             file >> carModel;
             storage.push_back(new Mercedes(carModel));
         }
-        else if (carBrand == "Toyota")
-        {
-            file >> carModel;
-            storage.push_back(new Toyota(carModel));
-        }
+
         else if (carBrand == "BMW")
         {
             file >> carModel;
             storage.push_back(new BMW(carModel));
         }
-        else if (carBrand == "Lada")
+
+        else if (carBrand == "Toyota")
         {
             file >> carModel;
-            storage.push_back(new Lada(carModel));
+            storage.push_back(new Toyota(carModel));
         }
     }
 
     for (int i = 0; i < storage.size(); ++i)
     {
+        storage[i]->print();
         delete storage[i];
     }
-
 
     return 0;
 }
