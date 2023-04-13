@@ -120,6 +120,8 @@ int main()
             storage.push_back(new Toyota(carModel));
         }
     }
+    
+    file.close();
 
     for (int i = 0; i < storage.size(); ++i)
     {
