@@ -10,38 +10,30 @@
 * ---------------------------------------------------------------------------------------------------------------------------- *
 */
 
+#include <iostream> 
+#include <vector> 
+#include <string> 
 
-#include <iostream>
-#include <vector>
-#include <string>
 
-
-// Перечисление для определения типа книги
+// Перечисление для определения типа книги 
 enum class Type
 {
     Art, Tech
 };
 
 
-// Класс книга
+// Класс книга 
 class Book
 {
 public:
-    // Для проверки на отсутствие названия и автора книги
-    bool chekNameAndAuthor = 0;
+    // Для проверки на отсутствие названия и автора книги 
+    //bool chekNameAndAuthor = 0; 
 
-    // Конструктор для инициализации
-    Book(const std::string& author, const std::string& bookName, const Type& bookType) :
-        author_{ author }, bookName_{ bookName }, bookType_{ bookType }
-    {
-        if (author.empty() || bookName.empty())
-        {
-            std::cout << "Error! Book name or author was not found.\n";
-            chekNameAndAuthor = 1;
-        }
-    }
+    // Конструктор для инициализации 
+    Book(const std::string& author, const std::string& bookName, Type bookType) :
+        author_{ author }, bookName_{ bookName }, bookType_{ bookType } {}
 
-    // Метод для взятия типа книги
+    // Метод для взятия типа книги 
     const Type getType() const
     {
         return bookType_;
@@ -54,104 +46,100 @@ private:
 };
 
 
-// Процедура из пункта Б
-void countSwitch(const std::vector<Book>& v)
+class Library
 {
-    short countArt = 0;
-    short countTech = 0;
-
-    for (int i = 0; i < v.size(); ++i)
+public:
+    // Метод для добавления книги в бибилиотеку 
+    void addBook(const std::string& author, const std::string& bookName, const Type bookType)
     {
-        const Type bType = v[i].getType();
-
-        switch (bType)
+        if (author.empty() || bookName.empty())
         {
-        case Type::Art:
-            countArt += 1;
-            break;
-
-        case Type::Tech:
-            countTech += 1;
-            break;
+            std::cout << "Error! Book name or author was not found.\n";
+        }
+        else
+        {
+            Book book = Book(author, bookName, bookType);
+            _library.push_back(book);
         }
     }
 
-    std::cout << "Number of Art Books:\t" << countArt << "\n";
-    std::cout << "Number of Tech Books:\t" << countTech << "\n";
-}
-
-
-// Процедура из пункта В
-void countIf(const std::vector<Book>& v)
-{
-    short countArt = 0;
-    short countTech = 0;
-
-    for (int i = 0; i < v.size(); ++i)
+    // Метод из пункта Б подсчёт switch 
+    void countSwitch()
     {
-        const Type bType = v[i].getType();
+        short countArt = 0;
+        short countTech = 0;
 
-        if (bType == Type::Art)
+        for (const Book& book : _library)
         {
-            countArt += 1;
+            const Type bookType = book.getType();
+
+            switch (bookType)
+            {
+            case Type::Art:
+                countArt += 1;
+                break;
+            case Type::Tech:
+                countTech += 1;
+                break;
+            }
         }
-        if (bType == Type::Tech)
-        {
-            countTech += 1;
-        }
+
+        std::cout << "----------------------\n";
+        std::cout << "num switch Art: " << countArt << std::endl;
+        std::cout << "----------------------\n";
+        std::cout << "num switch Tech: " << countTech << std::endl;
+        std::cout << "----------------------\n";
     }
 
-    std::cout << "Number of Art Books:\t" << countArt << "\n";
-    std::cout << "Number of Tech Books:\t" << countTech << "\n";
-}
+    // Метод из пункта B подсчёт if 
+    void countIf()
+    {
+        short countArt = 0;
+        short countTech = 0;
 
+        for (const Book& book : _library)
+        {
+            const Type bookType = book.getType();
+
+            if (bookType == Type::Art)
+            {
+                countArt += 1;
+            }
+            if (bookType == Type::Tech)
+            {
+                countTech += 1;
+            }
+        }
+
+        std::cout << "----------------------\n";
+        std::cout << "num if Art: " << countArt << std::endl;
+        std::cout << "----------------------\n";
+        std::cout << "num if Tech: " << countTech << std::endl;
+        std::cout << "----------------------\n";
+    }
+
+private:
+    std::vector<Book> _library;
+};
 
 int main()
 {
-    // Сама библиотека
-    std::vector<Book> library;
+    // Сама библиотека 
+    Library library;
 
-    // Промежуточная библиотека, нужная для отсеивания книг без авторов и названий
-    std::vector<Book> libCheck;
+    // Добавление книг в библиотеку 
+    library.addBook("Jack London", "Martin Iden", Type::Art);
+    library.addBook("F. Scott Fidzgerald", "Great Gatsby", Type::Art);
+    library.addBook("O. Henry", "Stories", Type::Art);
+    library.addBook("Bjarne Stroustrup", "The C++ Programming Language", Type::Tech);
+    library.addBook("M. I. Skanavi", "Collection of problems in mathematics", Type::Tech);
+    library.addBook("", "K", Type::Art);
+    library.addBook("J", "", Type::Tech);
 
-    // Создание книг
-    Book b1 = Book("Jack London", "Martin Iden", Type::Art);
-    Book b2 = Book("F. Scott Fidzgerald", "Great Gatsby", Type::Art);
-    Book b3 = Book("O. Henry", "Stories", Type::Art);
-    Book b4 = Book("Bjarne Stroustrup", "The C++ Programming Language", Type::Tech);
-    Book b5 = Book("M. I. Skanavi", "Collection of problems in mathematics", Type::Tech);
-    // Объекты для теста
-    Book b6 = Book("", "K", Type::Art);
-    Book b7 = Book("J", "", Type::Tech);
-
-
-    // Добавление книг в Промежуточную библиотеку
-    libCheck.push_back(b1);
-    libCheck.push_back(b2);
-    libCheck.push_back(b3);
-    libCheck.push_back(b4);
-    libCheck.push_back(b5);
-    libCheck.push_back(b6);
-    libCheck.push_back(b7);
-
-
-    // Добавление в  Основную библитеку книг, имеющих автора и название
-    for (int i = 0; i < libCheck.size(); ++i)
-    {
-        if (libCheck[i].chekNameAndAuthor != 1)
-        {
-            library.push_back(libCheck[i]);
-        }
-    }
-
-
-    // Подсчёт тех./худ. лит-ры
-    std::cout << "----------------------\n";
-    countSwitch(library);
-    std::cout << "----------------------\n";
-    countIf(library);
-    std::cout << "----------------------\n";
-
+    // Подсчёт через Swtich и If 
+    library.countSwitch();
+    std::cout << std::endl;
+    library.countIf();
 
     return 0;
 }
