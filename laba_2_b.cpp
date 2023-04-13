@@ -1,17 +1,17 @@
 /*
 * -------------------------------------------------------------------------------------------------------------------------------------------- *
-    	В проекте «Классическое приложение Windows» в функции WndProc вставить обработчик события
-	case WM_CREATE: {    break;}
-	В нем создать две фигуры типа окружности и прямоугольника и положить их в общее глобальное хранилище, применяя контейнер vector. 
-	(Использовать следует конструктор с необходимыми параметрами для каждого типа)
-	
-	Далее в функции WndProc, в обработке события WM_PAINT, между строками
-	
-	hdc = BeginPaint(hWnd, &ps);
-	и
-	EndPaint(hWnd, &ps);
-	
-	последовательно проходя по хранимым в контейнере vector данными, осуществить рисование окружности и прямоугольника.
+    В проекте «Классическое приложение Windows» в функции WndProc вставить обработчик события
+    case WM_CREATE: { break;}
+    В нем создать две фигуры типа окружности и прямоугольника и положить их в общее глобальное хранилище, применяя контейнер vector. 
+    (Использовать следует конструктор с необходимыми параметрами для каждого типа)
+
+    Далее в функции WndProc, в обработке события WM_PAINT, между строками
+
+    hdc = BeginPaint(hWnd, &ps);
+    и
+    EndPaint(hWnd, &ps);
+
+    последовательно проходя по хранимым в контейнере vector данными, осуществить рисование окружности и прямоугольника.
 * -------------------------------------------------------------------------------------------------------------------------------------------- *
 */
 
@@ -49,7 +49,7 @@ int APIENTRY WinMain(HINSTANCE This, HINSTANCE Prev, LPSTR cmd, int mode)
         return 0;
     }
 
-    hwnd = CreateWindow(WinName, _T("Êàðêàñ Windows-ïðèëîæåíèÿ"), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, This, NULL);
+    hwnd = CreateWindow(WinName, _T("Каркас Windows-приложения"), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, This, NULL);
 
     ShowWindow(hwnd, mode);
 
@@ -67,7 +67,7 @@ class Shape
 {
 public:
     Shape() {};
-    virtual void Draw(HDC hdc) {};
+    virtual void Draw(HDC hdc) = 0;
     virtual ~Shape() {};
 };
 
@@ -83,8 +83,7 @@ public:
     }
 
 private:
-    const int startCoord_{}; const int endCoord_{};
-    const int center_{}; const int radius_{};
+    const int startCoord_; const int endCoord_;
 };
 
 class Rect : public Shape
@@ -92,7 +91,7 @@ class Rect : public Shape
 public:
     // Конструктор из условия
     Rect(int start, int width, int height) :
-    startCoord_ {start}, rightCoord_ {startCoord_ + width}, bottomCoord_ {height}
+        startCoord_{ start }, rightCoord_{ startCoord_ + width }, bottomCoord_{ height }
     {}
 
     void Draw(HDC hdc)
@@ -101,8 +100,8 @@ public:
     }
 
 private:
-    const int startCoord_{}; const int rightCoord_{};
-    const int bottomCoord_{}; const int width_{}; const int height_{};
+    const int startCoord_; const int rightCoord_;
+    const int bottomCoord_;
 };
 
 // Глобальное хранилище
